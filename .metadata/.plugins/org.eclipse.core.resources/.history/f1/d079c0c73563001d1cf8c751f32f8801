@@ -1,0 +1,38 @@
+package app;
+
+import java.util.Set;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
+public class JedisTest {
+
+	public static void main(String[] args) {
+		JedisPool jedisPool = new JedisPool("127.0.0.1");
+		Jedis jedis = jedisPool.getResource();
+		
+		//Test
+//		try {
+//			String result = jedis.get("mykey");
+//			System.out.println(result);
+//
+//			jedis.set("msg_java", "Hello Java");
+//			jedisPool.returnResource(jedis);
+//
+//			String result2 = jedis.get("msg_java");
+//			System.out.println(result2);
+//
+//		}
+//		finally {
+//			jedisPool.destroy();
+//		}
+		
+		jedis.sadd("nicknames", "nickname#1");
+		jedis.sadd("nicknames", "nickname#2");
+		jedis.sadd("nicknames", "nickname#1");
+
+		Set<String> nicknames = jedis.smembers("nicknames");
+		System.out.println(nicknames);
+	}
+
+}

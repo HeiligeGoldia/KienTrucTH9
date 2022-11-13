@@ -1,0 +1,26 @@
+package app;
+
+import java.util.Scanner;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
+public class JedisTest {
+
+	public static void main(String[] args) {
+		JedisPool jedisPool = new JedisPool("127.0.0.1");
+		try {
+			Jedis jedis = jedisPool.getResource();
+			String result = jedis.get("msg_java");
+			System.out.println(result);
+
+//	      jedis.set("msg_java", "Hello Java");
+			jedisPool.returnResource(jedis);
+
+		}
+		finally {
+			jedisPool.destroy();
+		}
+	}
+
+}
